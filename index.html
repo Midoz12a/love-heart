@@ -13,11 +13,16 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            width: 100vw;
             overflow: hidden;
             font-family: Arial, sans-serif;
         }
         canvas {
             display: block;
+            /* MOBILE FIX: Scale down to fit the screen without stretching */
+            max-width: 100vw;
+            max-height: 100vh;
+            object-fit: contain;
         }
         #startOverlay {
             position: absolute;
@@ -40,10 +45,8 @@
 </head>
 <body>
 
-<!-- Invisible audio element -->
 <audio id="bgMusic" src="song.mp3" preload="auto" loop></audio>
 
-<!-- Click to Start Overlay to enable audio playback -->
 <div id="startOverlay">Click to Start</div>
 
 <canvas id="heartCanvas" width="800" height="800"></canvas>
@@ -245,13 +248,12 @@
         setTimeout(shimmerLoop, 140);
     }
 
-    // Wait for the user to click to start audio and animation
     overlay.addEventListener('click', () => {
         bgMusic.play().catch(err => console.log("Audio failed to play:", err));
         overlay.style.opacity = '0';
         setTimeout(() => {
             overlay.style.display = 'none';
-            requestAnimationFrame(draw); // Start animation
+            requestAnimationFrame(draw); 
         }, 500);
     });
 
